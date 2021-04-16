@@ -8,9 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Note extends Model
 {
     use HasFactory;
-    protected $fillable =['user_id','title','details'];
+    protected $guarded =[];
+    protected $fillable =['user_id','username','title','details'];
 
-    public function user(){
+   public function users(){
         return $this->belongsTo('App\User','user_id');
     }
 }
