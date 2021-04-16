@@ -14,7 +14,8 @@ class ApiNotesController extends Controller
      */
     public function index()
     {
-        //
+        $notes = Note::all();
+        return response($notes,200);
     }
 
     /**
