@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\WebNotes\WebNotesController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +17,4 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::resource('notes',WebNotesController::class);
