@@ -76,7 +76,7 @@ class ApiNotesController extends Controller
             'details'=> 'required'
         ]);
         $note= Note::where('id', $id)-> update($data, $id);
-        return response($data,'note updated succefully',200);
+        return response($data,'note updated successfully');
     }
 
     /**
