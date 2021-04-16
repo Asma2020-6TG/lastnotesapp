@@ -1,13 +1,45 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title> My Notes </title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
-</head>
-<body>
+@extends('notes.layout')
+@section('content')
 
-@yield('content')
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js" integrity="sha384-SR1sx49pcuLnqZUnnPwx6FCym0wLsk5JZuNx2bPPENzswTNFaQU1RDvt3wT4gWFG" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.min.js" integrity="sha384-j0CNLUeiqtyaRmlzUHCPZ+Gy5fQu0dQ6eZ/xAww941Ai1SxSY+0EQqNXNE6DZiVc" crossorigin="anonymous"></script>
-</body>
-</html>
+    <div class="container">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Title</th>
+                <th scope="col">Details</th>
+                <th scope="col">Operations</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach ($notes as $note)
+            <tr>
+                <th scope="row">{{$note->id}}</th>
+                <td>{{$note->title}}</td>
+                <td>{{$note->details}}</td>
+            <td>
+                <a href="{{url('notes.edit',$note -> id)}}" class="btn btn-success"> Edit</a>
+                <from action="{{ url('notes.destroy'),$note->id }}">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger" > Delete </button>
+                </from>
+            </td>
+
+            </tr>
+            @endforeach
+
+            </tbody>
+            @if(Session::has('success'))
+                <div class="alert alert-success" role="alert">
+                    {{ Session::get('success') }}
+                </div>
+            @endif
+        </table>
+
+
+
+    </div>
+@endsection
+
+

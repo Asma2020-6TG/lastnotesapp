@@ -25,13 +25,13 @@ class ApiNotesController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
+        $data=$request->validate([
             'user_id' => '',
             'username'=> 'required',
             'title'=> 'required',
             'details'=> 'required'
         ]);
-        $note= Note::create($request);
+        $note= Note::create($data);
         return response($note,200);
     }
 

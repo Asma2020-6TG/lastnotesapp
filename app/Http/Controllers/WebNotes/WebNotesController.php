@@ -11,9 +11,9 @@ class WebNotesController extends Controller
 
     public function index()
     {
-        $note = Note::all()->paginate(10);
+        $notes = Note::all();
 
-        return view('notes.index',compact('note'));
+        return view('notes.index',compact('notes'));
     }
 
 
@@ -30,7 +30,7 @@ class WebNotesController extends Controller
             'title'=>'required',
             'details'=>'required'
         ]);
-        $note = Note::create($request->all());
+        $notes = Note::create($request->all());
         return redirect()->route('notes.index')
         ->with('success','note added successfully');
     }
@@ -38,7 +38,7 @@ class WebNotesController extends Controller
 
     public function show($username)
     {
-        $notes = Note::where('username',$username)->get();
+        $note = Note::where('username',$username)->get();
         return view('notes.show',compact('note'));
     }
 
