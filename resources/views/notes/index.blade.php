@@ -18,7 +18,7 @@
                 <td>{{$note->title}}</td>
                 <td>{{$note->details}}</td>
             <td>
-                <a href="{{url('notes.edit',$note -> id)}}" class="btn btn-success"> Edit</a>
+                <a href="{{route('notes.edit',$note->id)}}" class="btn btn-success"> Edit</a>
                 <div>
                 <from action="{{ url('notes.destroy'),$note->id }}">
                     @csrf

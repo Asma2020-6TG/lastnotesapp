@@ -57,10 +57,10 @@ class WebNotesController extends Controller
     }
 
 
-    public function show(Note $name)
+    public function show($name)
     {
         $notes = Note::where('name',$name)->get();
-        return view('notes.show',compact('notes'));
+        return view('notes.show')->with('notes', $notes);
     }
 
 
@@ -79,13 +79,15 @@ class WebNotesController extends Controller
             'title'=>'required',
             'details'=>'required'
         ]);
+
         $note->update($request->all());
-        return redirect()->route('notes.index')
-            ->with('success','note updated successfully');
+
+
         $note->title =$request->title;
         $note->details =$request->details;
-        $note->save;
-        return redirect()->back();
+        $note->save();
+        return redirect()->route('notes.index')
+            ->with('success','note updated successfully');
     }
 
 

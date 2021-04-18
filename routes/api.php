@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ApiNotes\ApiNotesController;
+use App\Http\Controllers\ApiNotes\RegisterController;
+use App\Http\Middleware\ChekPassword;
 
 
 /*
@@ -16,7 +18,15 @@ use App\Http\Controllers\ApiNotes\ApiNotesController;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
+Route::middleware('auth:api')->get('/user', function(Request $request){
     return $request->user();
+
+
+
 });
 Route::resource('notes',ApiNotesController::class);
+
+
+
+
+
