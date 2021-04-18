@@ -9,9 +9,14 @@ class Note extends Model
 {
     use HasFactory;
     protected $guarded =[];
-    protected $fillable =['user_id','username','title','details'];
+    protected $fillable =['user_id','name','title','details'];
 
-   public function users(){
+    public static function create(array $all)
+    {
+
+    }
+
+    public function users(){
         return $this->belongsTo('App\User','user_id');
     }
 }

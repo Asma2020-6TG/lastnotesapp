@@ -19,11 +19,13 @@
                 <td>{{$note->details}}</td>
             <td>
                 <a href="{{url('notes.edit',$note -> id)}}" class="btn btn-success"> Edit</a>
+                <div>
                 <from action="{{ url('notes.destroy'),$note->id }}">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="btn btn-danger" > Delete </button>
                 </from>
+                </div>
             </td>
 
             </tr>

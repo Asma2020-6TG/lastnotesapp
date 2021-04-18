@@ -5,9 +5,16 @@ namespace App\Http\Controllers\WebNotes;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Note;
+use Auth;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\RedirectResponse;
 
 class WebNotesController extends Controller
 {
+    public function __construct()
+{
+    $this->middleware('auth');
+}
 
     public function index()
     {
@@ -16,52 +23,73 @@ class WebNotesController extends Controller
         return view('notes.index',compact('notes'));
     }
 
-
     public function create()
     {
         return view('notes.create');
     }
 
 
+
+
     public function store(Request $request)
     {
-        $request->validate([
-            'username'=>'required',
-            'title'=>'required',
-            'details'=>'required'
+        $rules=
+            [
+                'title' => 'required|unique:notes,title|max:100',
+                'details' => 'required||max:250'
+            ];
+        $message=
+            ['title.required'=> 'you should insert note',
+                'title.unique'=> 'try with another title',
+                'details.required'=> 'what are note details?'
+            ];
+        $validator = Validator::make($request ->all(),$rules,$message);
+
+
+        $note=Note::create([
+            'user_id'=> Auth::id(),
+            'name' => 'required',
+            'title' => 'required',
+            'details' => 'required',
         ]);
-        $notes = Note::create($request->all());
         return redirect()->route('notes.index')
         ->with('success','note added successfully');
     }
 
 
-    public function show($username)
+    public function show(Note $name)
     {
-        $note = Note::where('username',$username)->get();
-        return view('notes.show',compact('note'));
+        $notes = Note::where('name',$name)->get();
+        return view('notes.show',compact('notes'));
     }
 
 
     public function edit($id)
     {
-        return view('notes.edit',compact('note'));
+        $note =Note::find($id);
+        return view('notes.edit')->with('note',$note);
     }
 
     public function update(Request $request, $id)
+
     {
+        $note= Note::find($id);
         $request->validate([
-            'username'=>'required',
+
             'title'=>'required',
             'details'=>'required'
         ]);
-        $note = Note::update($request->all());
+        $note->update($request->all());
         return redirect()->route('notes.index')
             ->with('success','note updated successfully');
+        $note->title =$request->title;
+        $note->details =$request->details;
+        $note->save;
+        return redirect()->back();
     }
 
 
-    public function destroy($id)
+    public function destroy(Note $id)
     {
         $note = Note::find($id);
         $note->delete();
